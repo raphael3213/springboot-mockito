@@ -11,8 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class SomeBusinessTest {
@@ -43,5 +42,15 @@ public class SomeBusinessTest {
   public void calculateSum_oneValue() {
     when(dataServiceMock.retreiveAllData()).thenReturn(new int[] {1});
     assertEquals(someBusiness.calculateSum(), 1);
+  }
+
+  @Test
+  public void verify_dataServiceCalledOnce() {
+
+    when(dataServiceMock.retreiveAllData()).thenReturn(new int[] {1});
+
+    int sum = someBusiness.calculateSum();
+
+    verify(dataServiceMock, times(1)).retreiveAllData();
   }
 }

@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -62,5 +63,30 @@ public class ListMockTest {
     verify(mockList).get(captor.capture());
 
     assertEquals(0, captor.getValue());
+  }
+
+  @Test
+  public void verify_multipleArgumentCaptured() {
+
+    Object value1 = mockList.get(0);
+    Object value2 = mockList.get(1);
+    ArgumentCaptor<Integer> captor = ArgumentCaptor.forClass(Integer.class);
+    verify(mockList, times(2)).get(captor.capture());
+
+    assertEquals(0, captor.getAllValues().get(0));
+    assertEquals(1, captor.getAllValues().get(1));
+  }
+
+  @Test
+  public void verify_spying() {
+
+    // spying is the same as mocking, with the only difference that spying
+    // uses the real Class and not a mock,
+    // which does not have any of the behavior of an original object of the class being mocked
+    // You can use verify with a spy object
+    ArrayList arrayListSpy = spy(new ArrayList());
+    arrayListSpy.add("Helki");
+
+    verify(arrayListSpy).add("Helki");
   }
 }

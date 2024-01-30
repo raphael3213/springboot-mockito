@@ -14,9 +14,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 @SpringBootApplication
-abstract class MyspringApplication {
-
-  abstract void hello();
+public class MyspringApplication {
 
   public static void main(String[] args) {
 
