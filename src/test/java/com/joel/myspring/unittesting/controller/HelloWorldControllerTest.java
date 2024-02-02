@@ -28,6 +28,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 // This ensures that only this Controller is up and running for testing
 @WebMvcTest(value = HelloWorldController.class)
@@ -39,8 +41,30 @@ public class HelloWorldControllerTest {
     RequestBuilder request =
         MockMvcRequestBuilders.get("/hello-world").accept(MediaType.APPLICATION_JSON);
 
-    MvcResult result = this.mockMvc.perform(request).andReturn();
+    MvcResult result =
+        this.mockMvc
+            .perform(request)
+            .andExpect(status().isOk())
+            .andExpect(content().string("Hello World"))
+            .andReturn();
 
-    assertEquals("Hello World", result.getResponse().getContentAsString());
+    //    assertEquals("Hello World", result.getResponse().getContentAsString());
+  }
+
+  @Test
+  public void dummyItem_basic() throws Exception {
+    RequestBuilder request =
+        MockMvcRequestBuilders.get("/dummy-item").accept(MediaType.APPLICATION_JSON);
+
+    MvcResult result =
+        this.mockMvc
+            .perform(request)
+            //            .andExpect(status().isOk())
+            .andExpect(
+                content()
+                    .json("{\"id\": 1,  \"price\": 10,\"quantity\": 100,  \"name\": \"Joel\" }"))
+            .andReturn();
+
+    //    assertEquals("Hello World", result.getResponse().getContentAsString());
   }
 }
