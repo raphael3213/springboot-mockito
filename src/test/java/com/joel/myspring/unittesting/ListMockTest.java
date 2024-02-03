@@ -1,4 +1,4 @@
-package com.joel.myspring.unittesting.business;
+package com.joel.myspring.unittesting;
 
 import com.joel.myspring.data.SomeDataService;
 import com.joel.myspring.service.SomeBusinessImpl;
