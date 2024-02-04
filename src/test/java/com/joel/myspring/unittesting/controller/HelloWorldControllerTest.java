@@ -4,6 +4,7 @@ import com.joel.myspring.controller.HelloWorldController;
 import com.joel.myspring.model.Item;
 import com.joel.myspring.service.ItemBusinessService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -12,6 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -72,6 +75,27 @@ public class HelloWorldControllerTest {
             .andExpect(
                 content()
                     .json("{\"id\": 1,  \"price\": 10,\"quantity\": 100,  \"name\": \"Joel\" }"))
+            .andReturn();
+  }
+
+  @Test
+  public void returnItemFromDatabase_basic() throws Exception {
+
+    when(businessService.retreiveAllItems())
+        .thenReturn(
+            Arrays.asList(new Item(10001, "Joel", 10, 100), new Item(10002, "Joel", 10, 100)));
+    RequestBuilder request =
+        MockMvcRequestBuilders.get("/all-items-from-database").accept(MediaType.APPLICATION_JSON);
+
+    MvcResult result =
+        this.mockMvc
+            .perform(request)
+            .andExpect(status().isOk())
+            .andExpect(
+                content()
+                    .json(
+                        "[{id: 10001,  quantity: 100, price: 10, name: Joel },{id: 10002, "
+                            + " quantity: 100, price: 10, name: Joel }]"))
             .andReturn();
   }
 }

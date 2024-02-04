@@ -33,6 +33,8 @@ public class Item {
     return name;
   }
 
+  private Item() {}
+
   public Item(int id, String name, int price, int quantity) {
     this.id = id;
     this.name = name;
@@ -42,5 +44,9 @@ public class Item {
 
   public String toString() {
     return String.format("Item [%d %s %d %d]", id, name, price, quantity);
+  }
+
+  public void setValue(int i) {
+    this.value = i;
   }
 }
